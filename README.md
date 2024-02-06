@@ -49,4 +49,9 @@ bin/python3 stretch-break-verses.py
 
 Use crontab -e to edit the schedule.   This is not designed to work in a multi-user environment.
 
+Test your direct call first, and when it works without being in the environment, it shoudl also work in cron.
+
+```
+*/20 * * * * /home/james/v/python/stretch-break/rest.sh
+```
 

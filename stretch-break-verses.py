@@ -4,56 +4,28 @@
 DESCRIPTION:
 Simple screen saver/eye strain protection program to help me prevent headaches
 And Back pain problems from not moving all day doing IT work
-
-INSTRUCTIONS:
-1. install the modules you need with 'pip install somemodule'
-2. edit your words.json file, it must be valid json
-3. save this script as stretch-break.py
-4. copy font file into same location you save this file (arial.ttf)
-
-
-
-AUTOMATE/SCHEDULE (WINDOWS)
-if windows create a .bat file with 1 line in it:  python stretch-break.py
-test it:  python3 stretch-break.py, if it works great, it's ready to automate
-Schedule task in windows task scheduler to run as you see fit.
-
-for example, my "action" on my task is:
-	C:\tools\rest.bat
-
-The "start in" is:
-	C:\tools\
-
-Because that's where I saved the .json file, the .ttf file, the .bat and the .py files
-
-
-AUTOMATE/SCHEDULE (LINUX)
-chmod +x /path/to/stretch-break.py
-crontab -e
-*/20 * * * * /path/to/stretch-break.py (this would schedule every 20 minutes)
-
-needed "dos2unix" conversion to run from git into linux
-
-
 """
 
-
-
-import pygame		# pygame basics
+import pygame	# pygame basics
 import pygame.locals	# so I type just quit
 import pygame.freetype	# pygame fonts
 import sys		# for a proper exit and os detection
 import json		# to read/write json
-import random		# to pick a random work from our list
+import random	# to pick a random work from our list
 import textwrap	# to wrap text automagically
+import os 		# so we can find the json files
+
+# Determine the directory this script is in
+script_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the path to verses.json relative to the script's directory
+verses_path = os.path.join(script_directory, 'verses.json')
 
 # it's setup for linux by default
 if sys.platform == 'linux':
 	print("Linux Detected")
 elif sys.platform == 'Win32':
 	# hide the stupid console window:
-	#pip install pywin32
-	# pythonw didn't work
 	# note: it will close the dos prompt you test from too
 	print("Windows Detected")
 	import win32gui
@@ -68,13 +40,9 @@ else:
 
 # slurps up the json file into memory as a dict, create blank dict
 verses = {}
-# open JSON file for reading mode
-# cron required full path, windows didn't
-with open('verses.json', 'r') as infile:
-	# put it into a dictionary called "verses"
-	verses = json.load(infile)
-
-
+# Use the constructed path when opening the file
+with open(verses_path, 'r') as infile:
+    verses = json.load(infile)
 
 """
 gets random verse
@@ -109,16 +77,6 @@ def main():
 	# have to init the module
 	pygame.init()
 
-	# setting screen to full screen takeover
-	#WSIZE = ( 0,0 )
-	#screen = pygame.display.set_mode(WSIZE)
-
-	# setting to small box because full screen crashes 32 bit programs
-	# IF you have a keystroke or mouse click down
-	# Seems to ONLY work in 8 or 24 bit mode, 32 and 16 fail
-	#info = pygame.display.list_modes(24)
-	#print(info)
-	
 	# anyway, create a "screen" that we'll draw on later
 	screen = pygame.display.set_mode((1152, 864),0,24)
 
