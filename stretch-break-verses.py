@@ -70,7 +70,7 @@ else:
 verses = {}
 # open JSON file for reading mode
 # cron required full path, windows didn't
-with open('/home/james/stretch-break/verses.json', 'r') as infile:
+with open('verses.json', 'r') as infile:
 	# put it into a dictionary called "verses"
 	verses = json.load(infile)
 

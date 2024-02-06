@@ -2,19 +2,51 @@
 
 Very simple program to help me remember to stretch.  Requires cron, at, or taskscheduler for the heavy lifting.
 
-# Instructions:
+## Word/Verse Configuration
 
-1. install the modules you need with 'pip install somemodule'
-2. edit your words.json file, it must be valid json
-3. save the script as stretch-break.py
-4. create a .bat file with 1 line in it:  python stretch-break.py (or use my example)
-5. copy font file into same location you save this file (arial.ttf)
-6. test it from CLI:  python stretch-break.py, if it works great, else figure out why
-7. Schedule task to run the bat file in windows task scheduler to run as you see fit (I run mine every 30 minutes all the time, except when logged out).
+- Make a backup of the file you want to edit (verses.json or words.json)
+- Modify the file as you like, they are text/json
 
-# Windows/Linux
+## Installation Windows
 
-It will work on Linux, but not as written.   I will need to add a switch to detect OS and not load the Win32 stuff.
+```
+git clone git@github.com:rubysash/stretch-break.git
+cd stretch-break
+scripts\activate
+python -m pip install pip --upgrade
+python -m pip install -r requirements.txt
+```
+## Automation Windows
 
+I've created the rest.bat that will both log the word/verse and start the venv
+
+```
+start cmd /k "Scripts\activate && python stretch-break-verses.py"
+```
+
+Use task scheduler in windows to schedule that bat file to run every 30 minutes when you are logged in.
+
+## Installation Linux
+
+```
+git clone git@github.com:rubysash/stretch-break.git
+python3 -m venv stretch-break
+cd stretch-break
+source bin/activate
+python3 -m pip install pip --upgrade
+python3 -m pip install -r requirements.txt
+```
+
+## Automation Linux
+
+I've created the rest.sh script which will load the proper environment and run the script.
+
+The rest.sh must be executable `chmod +x rest.sh`
+
+```
+bin/python3 stretch-break-verses.py
+```
+
+Use crontab -e to edit the schedule.   This is not designed to work in a multi-user environment.
 
 
